@@ -1,0 +1,11 @@
+// Modelos coletados de todos os microsserviços
+
+=== MS-AI-AGENT ===
+
+=== MS-AUDIT ===
+
+=== MS-BILLING ===
+
+=== MS-PROCEDURES ===
+
+=== MS-RULES-ENGINE ===

@@ -1,0 +1,24 @@
+{
+  "name": "lazarus-prisma-global",
+  "version": "1.0.0",
+  "description": "Schema Prisma global para todos os microsserviços Lazarus",
+  "main": "index.js",
+  "scripts": {
+    "db:generate": "prisma generate",
+    "db:push": "prisma db push",
+    "db:migrate": "prisma migrate dev",
+    "db:reset": "prisma migrate reset",
+    "db:seed": "prisma db seed",
+    "db:studio": "prisma studio"
+  },
+  "dependencies": {
+    "@prisma/client": "^5.22.0",
+    "prisma": "^5.22.0"
+  },
+  "prisma": {
+    "seed": "node seed.js"
+  },
+  "keywords": ["prisma", "postgresql", "lazarus", "microservices"],
+  "author": "Lazarus Team",
+  "license": "MIT"
+}
