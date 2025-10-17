@@ -12,13 +12,20 @@
     "db:studio": "prisma studio"
   },
   "dependencies": {
-    "@prisma/client": "^5.22.0",
-    "prisma": "^5.22.0"
+    "@prisma/client": "^6.17.1"
   },
   "prisma": {
     "seed": "node seed.js"
   },
-  "keywords": ["prisma", "postgresql", "lazarus", "microservices"],
+  "keywords": [
+    "prisma",
+    "postgresql",
+    "lazarus",
+    "microservices"
+  ],
   "author": "Lazarus Team",
-  "license": "MIT"
+  "license": "MIT",
+  "devDependencies": {
+    "prisma": "^6.17.1"
+  }
 }

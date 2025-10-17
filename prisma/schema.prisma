@@ -474,3 +474,80 @@ model HospitalSystem {
   @@index([isActive])
   @@map("hospital_systems")
 }
+
+
+// ============================================================================
+// FRON INTEGRATION (MS-TISS-IMPORTER)
+// ============================================================================
+
+model Guia {
+  id                                Int @id @default(autoincrement())
+  numeroGuiaPrestador               String    @unique
+  numeroGuiaOperadora               String?
+  numeroCarteira                    String?
+  senha                             String?
+  dataAutorizacao                   DateTime?
+  dataValidadeSenha                 DateTime?
+  atendimentoRN                     String?
+  tipoTransacao                     String?
+  loteGuia                          String?
+  
+  // Dados da Internação
+  caraterAtendimento                String?
+  tipoFaturamento                   String?
+  dataInicioFaturamento             DateTime?
+  dataFinalFaturamento              DateTime?
+  tipoInternacao                    String?
+  regimeInternacao                  String?
+  
+  // Dados de Saída
+  diagnostico                       String?
+  indicadorAcidente                 String?
+  motivoEncerramento                String?
+
+  // Listas de Itens 
+  procedimentos                     Procedimento[] 
+  outrasDespesas                    Json?
+  
+  // Valores Totais
+  valorTotalProcedimentos           Float?
+  valorTotalDiarias                 Float?
+  valorTotalTaxasAlugueis           Float?
+  valorTotalMateriais               Float?
+  valorTotalMedicamentos            Float?
+  valorTotalOPME                    Float?
+  valorTotalGasesMedicinais         Float?
+  valorTotalGeral                   Float?
+
+  observacao                        String?   @db.Text
+  
+  createdAt                         DateTime  @default(now())
+  updatedAt                         DateTime  @updatedAt
+  @@map("guia")
+}
+
+model Procedimento {
+  id                      Int @id @default(autoincrement())
+  sequencialItem          String
+  dataExecucao            String?
+  horaInicial             String?
+  horaFinal               String?
+  codigoTabela            String?
+  codigoProcedimento      String?
+  descricaoProcedimento   String?   @db.Text
+  quantidadeExecutada     Int?
+  viaAcesso               String?
+  tecnicaUtilizada        String?
+  reducaoAcrescimo        Float?
+  valorUnitario           Float?
+  valorTotal              Float?
+  nomeProfissional        String?
+  identEquipe             Json?
+
+  guiaId                  Int
+  guia                    Guia @relation(fields: [guiaId], references: [id], onDelete: Cascade)
+
+  @@unique([guiaId, sequencialItem])
+  @@map("guia_procedimentos")
+}
+
