@@ -332,6 +332,181 @@ model tussProcedimento {
   @@map("tussProcedimentos")
 }
 
+model tbdomTipoInternacao {
+  codigoTermo         String    @id @db.VarChar(10)
+  termo              String    @db.VarChar(500)
+  dataInicioVigencia DateTime? @db.Date
+  dataFimVigencia    DateTime? @db.Date
+  dataFimImplantacao    DateTime? @db.Date
+
+  @@map("tbdomTipoInternacao")
+}
+
+model tbdomAusenciaCodValidacao {
+  codigoTermo         String    @id @db.VarChar(10)
+  termo              String    @db.VarChar(500)
+  dataInicioVigencia DateTime? @db.Date
+  dataFimVigencia    DateTime? @db.Date
+  dataFimImplantacao    DateTime? @db.Date
+
+  @@map("tbdomAusenciaCodValidacao")
+}
+
+model tbdomIdentificaBeneficiario {
+  codigoTermo         String    @id @db.VarChar(10)
+  termo              String    @db.VarChar(500)
+  dataInicioVigencia DateTime? @db.Date
+  dataFimVigencia    DateTime? @db.Date
+  dataFimImplantacao    DateTime? @db.Date
+
+  @@map("tbdomIdentificaBeneficiario")
+}
+
+
+model tbdomCaraterAtendimento {
+  codigoTermo         String    @id @db.VarChar(10)
+  termo              String    @db.VarChar(500)
+  dataInicioVigencia DateTime? @db.Date
+  dataFimVigencia    DateTime? @db.Date
+  dataFimImplantacao    DateTime? @db.Date
+
+  @@map("tbdomCaraterAtendimento")
+}
+
+model tbdomTipoFaturamento {
+  codigoTermo         String    @id @db.VarChar(10)
+  termo              String    @db.VarChar(500)
+  dataInicioVigencia DateTime? @db.Date
+  dataFimVigencia    DateTime? @db.Date
+  dataFimImplantacao    DateTime? @db.Date
+
+  @@map("tbdomTipoFaturamento")
+}
+
+model tbdomRegimeInternacao {
+  codigoTermo         String    @id @db.VarChar(10)
+  termo              String    @db.VarChar(500)
+  dataInicioVigencia DateTime? @db.Date
+  dataFimVigencia    DateTime? @db.Date
+  dataFimImplantacao    DateTime? @db.Date
+
+  @@map("tbdomRegimeInternacao")
+}
+
+
+model tbdomIndicadorAcidente {
+  codigoTermo         String    @id @db.VarChar(10)
+  termo              String    @db.VarChar(500)
+  dataInicioVigencia DateTime? @db.Date
+  dataFimVigencia    DateTime? @db.Date
+  dataFimImplantacao    DateTime? @db.Date
+
+  @@map("tbdomIndicadorAcidente")
+}
+
+model tbdomMotivoEncerramento {
+  codigoTermo         String    @id @db.VarChar(10)
+  termo              String    @db.VarChar(500)
+  dataInicioVigencia DateTime? @db.Date
+  dataFimVigencia    DateTime? @db.Date
+  dataFimImplantacao    DateTime? @db.Date
+
+  @@map("tbdomMotivoEncerramento")
+}
+
+model tbdomRelacaoTUSS {
+  codigoTabela         String    @id @db.VarChar(10)
+  descricao              String    @db.VarChar(500)
+  dataInicioVigencia DateTime? @db.Date
+  dataFimVigencia    DateTime? @db.Date
+  dataFimImplantacao    DateTime? @db.Date
+
+  @@map("tbdomRelacaoTUSS")
+}
+
+model tbdomViaAcesso {
+  codigoTermo         String    @id @db.VarChar(10)
+  termo              String    @db.VarChar(500)
+  dataInicioVigencia DateTime? @db.Date
+  dataFimVigencia    DateTime? @db.Date
+  dataFimImplantacao    DateTime? @db.Date
+
+  @@map("tbdomViaAcesso")
+}
+
+model tbdomTecnicaUtilizada {
+  codigoTermo         String    @id @db.VarChar(10)
+  termo              String    @db.VarChar(500)
+  dataInicioVigencia DateTime? @db.Date
+  dataFimVigencia    DateTime? @db.Date
+  dataFimImplantacao    DateTime? @db.Date
+
+  @@map("tbdomTecnicaUtilizada")
+}
+
+model tbdomGrauParticipacao {
+  codigoTermo         String    @id @db.VarChar(10)
+  termo              String    @db.VarChar(500)
+  dataInicioVigencia DateTime? @db.Date
+  dataFimVigencia    DateTime? @db.Date
+  dataFimImplantacao    DateTime? @db.Date
+
+  @@map("tbdomGrauParticipacao")
+}
+
+model tbdomConselhoProfissional {
+  codigoTermo         String    @id @db.VarChar(10)
+  termo              String    @db.VarChar(500)
+  dataInicioVigencia DateTime? @db.Date
+  dataFimVigencia    DateTime? @db.Date
+  dataFimImplantacao    DateTime? @db.Date
+
+  @@map("tbdomConselhoProfissional")
+}
+
+model tbdomUF {
+  codigoTermo         String    @id @db.VarChar(10)
+  termo              String    @db.VarChar(500)
+  sigla              String    @db.VarChar(10)
+  dataInicioVigencia DateTime? @db.Date
+  dataFimVigencia    DateTime? @db.Date
+  dataFimImplantacao    DateTime? @db.Date
+
+  @@map("tbdomUF")
+}
+
+model tbdomCBO {
+  codigoTermo         String    @id @db.VarChar(10)
+  termo              String    @db.VarChar(500)
+  dataInicioVigencia DateTime? @db.Date
+  dataFimVigencia    DateTime? @db.Date
+  dataFimImplantacao    DateTime? @db.Date
+
+  @@map("tbdomCBO")
+}
+
+
+model tbdomCodigoDespesa {
+  codigoTermo         String    @id @db.VarChar(10)
+  termo              String    @db.VarChar(500)
+  dataInicioVigencia DateTime? @db.Date
+  dataFimVigencia    DateTime? @db.Date
+  dataFimImplantacao    DateTime? @db.Date
+
+  @@map("tbdomCodigoDespesa")
+}
+
+model tbdomUnMedida {
+  codigoTermo         String    @id @db.VarChar(10)
+  termo              String    @db.VarChar(500)
+  descricaoDetalhada              String    @db.VarChar(500)
+  dataInicioVigencia DateTime? @db.Date
+  dataFimVigencia    DateTime? @db.Date
+  dataFimImplantacao    DateTime? @db.Date
+
+  @@map("tbdomUnMedida")
+}
+
 enum Gender {
   MALE
   FEMALE
