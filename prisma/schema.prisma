@@ -15,23 +15,23 @@ model Patient {
   deletedAt            DateTime?
   fullName             String
   birthDate            DateTime
-  phone                String
-  email                String
+  phone                String?
+  email                String?
   accommodationStatus  AccommodationStatus
   accommodationType    AccommodationType
-  address              String
+  address              String?
   admissionDate        DateTime
-  cpf                  String              @unique
+  cpf                  String?              @unique
   currentAccommodation AccommodationType
   gender               Gender
-  insuranceNumber      String
-  insurancePlan        String
+  insuranceNumber      String?
+  insurancePlan        String?
   insuranceValidity    DateTime
-  medicalRecordNumber  String              @unique
+  medicalRecordNumber  String?              @unique
   observations         String?
-  responsibleDoctor    String
-  rg                   String
-  roomNumber           String
+  responsibleDoctor    String?
+  rg                   String?
+  roomNumber           String?
   status               PatientStatus
   validationStatus     ValidationStatus
   auditLogs            AuditLog[]
@@ -40,6 +40,7 @@ model Patient {
   dialogues            Dialogue[]
   documents            Document[]
   procedures           Procedure[]
+  guias                Guia[] 
 
   @@index([cpf])
   @@index([medicalRecordNumber])
@@ -50,25 +51,36 @@ model Patient {
 }
 
 model Procedure {
-  id                    String          @id @default(cuid())
-  createdAt             DateTime        @default(now())
-  updatedAt             DateTime        @updatedAt
-  code                  String          @unique
-  description           String?
-  patientId             String?
-  status                ProcedureStatus
-  estimatedDuration     Int
-  basePrice             Decimal         @db.Decimal(10, 2)
-  name                  String
-  requiresAuthorization Boolean         @default(false)
-  subcategory           String?
-  tags                  String[]
-  isActive              Boolean         @default(true)
-  category              String
-  complexity            String
-  auditLogs             AuditLog[]
-  billingItems          BillingItem[]
-  patient               Patient?        @relation(fields: [patientId], references: [id])
+  id                        String          @id @default(cuid())
+  createdAt                 DateTime        @default(now())
+  updatedAt                 DateTime        @updatedAt
+  code                      String
+  description               String?
+  patientId                 String?
+  status                    ProcedureStatus
+  estimatedDuration         Int?
+  basePrice                 Decimal         @db.Decimal(10, 2)
+  name                      String
+  requiresAuthorization     Boolean         @default(false)
+  subcategory               String?
+  tags                      String[]
+  isActive                  Boolean         @default(true)
+  category                  String
+  complexity                String
+  suggestedPort             Int
+  actualPort                Int?
+  scheduledDate             DateTime?       @db.Timestamp(6)
+  performedDate             DateTime?       @db.Timestamp(6)
+  duration                  Int?
+  anesthesiaType            AnesthesiaType?
+  preOperativeExams         String[]        @default([])
+  postOperativeInstructions String?
+  complications             String?
+  notes                     String?
+  deletedAt                 DateTime?       @db.Timestamp(6)
+  auditLogs                 AuditLog[]
+  billingItems              BillingItem[]
+  patient                   Patient?        @relation(fields: [patientId], references: [id])
 
   @@index([code])
   @@index([category])
@@ -270,6 +282,7 @@ model Guia {
   dataValidadeSenha         DateTime?
   atendimentoRN             String?
   tipoTransacao             String?
+  tipoGuia                  String?
   loteGuia                  String?
   caraterAtendimento        String?
   tipoFaturamento           String?
@@ -292,6 +305,8 @@ model Guia {
   observacao                String?
   createdAt                 DateTime       @default(now())
   updatedAt                 DateTime       @updatedAt
+  patientId                 String?
+  patient                   Patient? @relation(fields: [patientId], references: [id])
   procedimentos             Procedimento[]
 
   @@map("guia")
@@ -333,178 +348,194 @@ model tussProcedimento {
 }
 
 model tbdomTipoInternacao {
-  codigoTermo         String    @id @db.VarChar(10)
+  codigoTermo        String    @id @db.VarChar(10)
   termo              String    @db.VarChar(500)
   dataInicioVigencia DateTime? @db.Date
   dataFimVigencia    DateTime? @db.Date
-  dataFimImplantacao    DateTime? @db.Date
+  dataFimImplantacao DateTime? @db.Date
 
   @@map("tbdomTipoInternacao")
 }
 
 model tbdomAusenciaCodValidacao {
-  codigoTermo         String    @id @db.VarChar(10)
+  codigoTermo        String    @id @db.VarChar(10)
   termo              String    @db.VarChar(500)
   dataInicioVigencia DateTime? @db.Date
   dataFimVigencia    DateTime? @db.Date
-  dataFimImplantacao    DateTime? @db.Date
+  dataFimImplantacao DateTime? @db.Date
 
   @@map("tbdomAusenciaCodValidacao")
 }
 
 model tbdomIdentificaBeneficiario {
-  codigoTermo         String    @id @db.VarChar(10)
+  codigoTermo        String    @id @db.VarChar(10)
   termo              String    @db.VarChar(500)
   dataInicioVigencia DateTime? @db.Date
   dataFimVigencia    DateTime? @db.Date
-  dataFimImplantacao    DateTime? @db.Date
+  dataFimImplantacao DateTime? @db.Date
 
   @@map("tbdomIdentificaBeneficiario")
 }
 
-
 model tbdomCaraterAtendimento {
-  codigoTermo         String    @id @db.VarChar(10)
+  codigoTermo        String    @id @db.VarChar(10)
   termo              String    @db.VarChar(500)
   dataInicioVigencia DateTime? @db.Date
   dataFimVigencia    DateTime? @db.Date
-  dataFimImplantacao    DateTime? @db.Date
+  dataFimImplantacao DateTime? @db.Date
 
   @@map("tbdomCaraterAtendimento")
 }
 
 model tbdomTipoFaturamento {
-  codigoTermo         String    @id @db.VarChar(10)
+  codigoTermo        String    @id @db.VarChar(10)
   termo              String    @db.VarChar(500)
   dataInicioVigencia DateTime? @db.Date
   dataFimVigencia    DateTime? @db.Date
-  dataFimImplantacao    DateTime? @db.Date
+  dataFimImplantacao DateTime? @db.Date
 
   @@map("tbdomTipoFaturamento")
 }
 
 model tbdomRegimeInternacao {
-  codigoTermo         String    @id @db.VarChar(10)
+  codigoTermo        String    @id @db.VarChar(10)
   termo              String    @db.VarChar(500)
   dataInicioVigencia DateTime? @db.Date
   dataFimVigencia    DateTime? @db.Date
-  dataFimImplantacao    DateTime? @db.Date
+  dataFimImplantacao DateTime? @db.Date
 
   @@map("tbdomRegimeInternacao")
 }
 
-
 model tbdomIndicadorAcidente {
-  codigoTermo         String    @id @db.VarChar(10)
+  codigoTermo        String    @id @db.VarChar(10)
   termo              String    @db.VarChar(500)
   dataInicioVigencia DateTime? @db.Date
   dataFimVigencia    DateTime? @db.Date
-  dataFimImplantacao    DateTime? @db.Date
+  dataFimImplantacao DateTime? @db.Date
 
   @@map("tbdomIndicadorAcidente")
 }
 
 model tbdomMotivoEncerramento {
-  codigoTermo         String    @id @db.VarChar(10)
+  codigoTermo        String    @id @db.VarChar(10)
   termo              String    @db.VarChar(500)
   dataInicioVigencia DateTime? @db.Date
   dataFimVigencia    DateTime? @db.Date
-  dataFimImplantacao    DateTime? @db.Date
+  dataFimImplantacao DateTime? @db.Date
 
   @@map("tbdomMotivoEncerramento")
 }
 
 model tbdomRelacaoTUSS {
-  codigoTabela         String    @id @db.VarChar(10)
-  descricao              String    @db.VarChar(500)
+  codigoTabela       String    @id @db.VarChar(10)
+  descricao          String    @db.VarChar(500)
   dataInicioVigencia DateTime? @db.Date
   dataFimVigencia    DateTime? @db.Date
-  dataFimImplantacao    DateTime? @db.Date
+  dataFimImplantacao DateTime? @db.Date
 
   @@map("tbdomRelacaoTUSS")
 }
 
 model tbdomViaAcesso {
-  codigoTermo         String    @id @db.VarChar(10)
+  codigoTermo        String    @id @db.VarChar(10)
   termo              String    @db.VarChar(500)
   dataInicioVigencia DateTime? @db.Date
   dataFimVigencia    DateTime? @db.Date
-  dataFimImplantacao    DateTime? @db.Date
+  dataFimImplantacao DateTime? @db.Date
 
   @@map("tbdomViaAcesso")
 }
 
 model tbdomTecnicaUtilizada {
-  codigoTermo         String    @id @db.VarChar(10)
+  codigoTermo        String    @id @db.VarChar(10)
   termo              String    @db.VarChar(500)
   dataInicioVigencia DateTime? @db.Date
   dataFimVigencia    DateTime? @db.Date
-  dataFimImplantacao    DateTime? @db.Date
+  dataFimImplantacao DateTime? @db.Date
 
   @@map("tbdomTecnicaUtilizada")
 }
 
 model tbdomGrauParticipacao {
-  codigoTermo         String    @id @db.VarChar(10)
+  codigoTermo        String    @id @db.VarChar(10)
   termo              String    @db.VarChar(500)
   dataInicioVigencia DateTime? @db.Date
   dataFimVigencia    DateTime? @db.Date
-  dataFimImplantacao    DateTime? @db.Date
+  dataFimImplantacao DateTime? @db.Date
 
   @@map("tbdomGrauParticipacao")
 }
 
 model tbdomConselhoProfissional {
-  codigoTermo         String    @id @db.VarChar(10)
+  codigoTermo        String    @id @db.VarChar(10)
   termo              String    @db.VarChar(500)
   dataInicioVigencia DateTime? @db.Date
   dataFimVigencia    DateTime? @db.Date
-  dataFimImplantacao    DateTime? @db.Date
+  dataFimImplantacao DateTime? @db.Date
 
   @@map("tbdomConselhoProfissional")
 }
 
 model tbdomUF {
-  codigoTermo         String    @id @db.VarChar(10)
+  codigoTermo        String    @id @db.VarChar(10)
   termo              String    @db.VarChar(500)
   sigla              String    @db.VarChar(10)
   dataInicioVigencia DateTime? @db.Date
   dataFimVigencia    DateTime? @db.Date
-  dataFimImplantacao    DateTime? @db.Date
+  dataFimImplantacao DateTime? @db.Date
 
   @@map("tbdomUF")
 }
 
 model tbdomCBO {
-  codigoTermo         String    @id @db.VarChar(10)
+  codigoTermo        String    @id @db.VarChar(10)
   termo              String    @db.VarChar(500)
   dataInicioVigencia DateTime? @db.Date
   dataFimVigencia    DateTime? @db.Date
-  dataFimImplantacao    DateTime? @db.Date
+  dataFimImplantacao DateTime? @db.Date
 
   @@map("tbdomCBO")
 }
 
-
 model tbdomCodigoDespesa {
-  codigoTermo         String    @id @db.VarChar(10)
+  codigoTermo        String    @id @db.VarChar(10)
   termo              String    @db.VarChar(500)
   dataInicioVigencia DateTime? @db.Date
   dataFimVigencia    DateTime? @db.Date
-  dataFimImplantacao    DateTime? @db.Date
+  dataFimImplantacao DateTime? @db.Date
 
   @@map("tbdomCodigoDespesa")
 }
 
 model tbdomUnMedida {
-  codigoTermo         String    @id @db.VarChar(10)
+  codigoTermo        String    @id @db.VarChar(10)
   termo              String    @db.VarChar(500)
-  descricaoDetalhada              String    @db.VarChar(500)
+  descricaoDetalhada String    @db.VarChar(500)
   dataInicioVigencia DateTime? @db.Date
   dataFimVigencia    DateTime? @db.Date
-  dataFimImplantacao    DateTime? @db.Date
+  dataFimImplantacao DateTime? @db.Date
 
   @@map("tbdomUnMedida")
+}
+
+model tbdomPorte {
+  codigo             String    @id @db.VarChar(10)
+  procedimento       String    @db.VarChar(500)
+  porte              String    @db.VarChar(10)
+  valorFinalPorte    Decimal?  @db.Decimal(10, 2)
+  custoOperacIndice  Decimal?  @db.Decimal(10, 3)
+  custoOperacRs      Decimal?  @db.Decimal(10, 2)
+  numAuxiliar        Int?      @default(0)
+  porteAnestesico    Int?      @default(0)
+  incidencia         Int?      @default(0)
+  filmesIndice       Decimal?  @db.Decimal(10, 3)
+  dataInicioVigencia DateTime? @db.Date
+  dataFimVigencia    DateTime? @db.Date
+  dataFimImplantacao DateTime? @db.Date
+
+  @@index([codigo])
+  @@index([porte])
 }
 
 enum Gender {
@@ -591,4 +622,77 @@ enum RuleStatus {
   ACTIVE
   INACTIVE
   DRAFT
+}
+
+enum AnesthesiaType {
+  LOCAL
+  REGIONAL
+  GENERAL
+  SEDATION
+  NONE
+}
+
+enum MaterialRequestStatus {
+  PENDING
+  APPROVED
+  REJECTED
+  ORDERED
+  DELIVERED
+  CANCELLED
+}
+
+enum MaterialStatus {
+  REQUESTED
+  APPROVED
+  DELIVERED
+  USED
+  RETURNED
+  EXPIRED
+  REJECTED
+}
+
+enum MaterialUrgency {
+  LOW
+  MEDIUM
+  HIGH
+  URGENT
+}
+
+enum ProcedureCategory {
+  GENERAL_SURGERY
+  CARDIAC_SURGERY
+  ORTHOPEDIC_SURGERY
+  NEUROSURGERY
+  PLASTIC_SURGERY
+  GYNECOLOGICAL_SURGERY
+  UROLOGICAL_SURGERY
+  OPHTHALMOLOGICAL_SURGERY
+  OTOLARYNGOLOGICAL_SURGERY
+  VASCULAR_SURGERY
+  THORACIC_SURGERY
+  PEDIATRIC_SURGERY
+  EMERGENCY_SURGERY
+  DIAGNOSTIC_PROCEDURE
+  THERAPEUTIC_PROCEDURE
+}
+
+enum ProcedureComplexity {
+  LOW
+  MEDIUM
+  HIGH
+  VERY_HIGH
+  PORTE_1
+  PORTE_2
+  PORTE_3
+  PORTE_4
+  PORTE_ESPECIAL
+}
+
+enum SurgicalRole {
+  MAIN_SURGEON
+  ASSISTANT_SURGEON
+  ANESTHESIOLOGIST
+  NURSE
+  TECHNICIAN
+  RESIDENT
 }
