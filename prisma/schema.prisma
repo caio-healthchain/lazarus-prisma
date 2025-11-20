@@ -327,6 +327,9 @@ model Procedimento {
   reducaoAcrescimo      Float?
   valorUnitario         Float?
   valorTotal            Float?
+  valorAprovado         Float?  // Valor após ajuste automático (valor contratual)
+  motivoRejeicao        String? // Justificativa obrigatória para rejeições
+  categoriaRejeicao     String? // Categoria da rejeição (ex: VALOR_DIVERGENTE)
   nomeProfissional      String?
   identEquipe           Json?
   guiaId                Int
